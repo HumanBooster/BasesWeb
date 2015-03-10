@@ -1,0 +1,7 @@
+form label {
+	display: block;
+}
+
+form label[for=sex] label {
+	display: inline;
+}
