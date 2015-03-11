@@ -5,3 +5,15 @@ form label {
 form label[for=sex] label {
 	display: inline;
 }
+
+p.message-error {
+	color: red;
+}
+
+p.message-info {
+	color: blue;
+}
+
+p.message-valid {
+	color: green;
+}
