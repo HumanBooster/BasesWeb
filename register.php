@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+
+    $msg = ( isset($_GET['msg']) ? urldecode($_GET['msg']) : "" );
+
+?><!DOCTYPE html>
 <html>
     <head>
     	<!-- En-tête de la page -->
@@ -9,7 +13,13 @@
 
     <body>
 
-        <form method="post" action="register.php">
+        <?php 
+            if (!empty($msg)) {
+                echo '<p class="message">'.$msg.'</p>'."\n";
+            }
+        ?>
+
+        <form method="post" action="register_traitement.php" enctype="multipart/form-data">
             <h2>Formulaire d'enregistrement</h2>
 
             <fieldset>
@@ -29,10 +39,9 @@
                 <label>Date de naissance : <input type="date" name="date_naissance" placeholder="YYYY-MM-DD" required></label>
 
 
-                <label for="sex">Sexe :
+                Sexe :
                     <label>M <input type="radio" name="sexe" value="M"> </label>
                     <label>F <input type="radio" name="sexe" value="F"> </label>
-                </label>
             </fieldset>
             
             <fieldset>
