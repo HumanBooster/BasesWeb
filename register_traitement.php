@@ -2,6 +2,10 @@
 session_start();
 
 header("Content-Type: text/plain; charset=UTF-8");
+
+function addMessage($code, $type, $lib) {
+	$_SESSION['messages'][] = array("code"=>$code, "type" => $type, "lib" => $lib);
+}
 /*
 $newsletter = false;
 if (isset($_POST['newsletter'])) {
@@ -21,7 +25,8 @@ foreach ($_POST as $cle => $valeur) {
 echo "</ul>\n";
 */
 
-$msgs[] = array("code"=>0, "type" => "valid", "lib" => "Votre inscription a bien été prise en compte.");
+addMessage(0,"valid","Votre inscription a bien été prise en compte.");
+
 if ($_FILES['photo_profil']['error']==UPLOAD_ERR_OK) {
 
 	// on définit le chemin final du fichier une fois déplacé
@@ -40,20 +45,17 @@ if ($_FILES['photo_profil']['error']==UPLOAD_ERR_OK) {
 
 	// on regarde si l'extension est autorisée
 	if(!in_array($ext,$autorises) ) {
-	    $msgs[] = array("code"=>1, "type" => "error", "lib" => "Extension non autorisée.");
+	    addMessage(1,"error","Extension non autorisée.");
 	} else {
 
 		// on tente de déplacer le fichier vers son emplacement final
 		// si ca marche, on prévient l'utilisateur
 		if (move_uploaded_file($_FILES['photo_profil']['tmp_name'], $uploadfile)) {
-		    $msgs[] = array("code"=>0, "type" => "valid", 
-		    	"lib" => "Le fichier est valide, et a été téléchargé avec succès.");
+		    addMessage(0,"valid","Le fichier est valide, et a été téléchargé avec succès.");
 		} else { // sinon on affiche le code erreur
-		    $msgs[] = array("code"=>2, "type" => "error", "lib" => "Erreur détectée.");
+		    addMessage(2, "error", "Erreur détectée.");
 		}
 	}
 }
-
-$_SESSION['messages'] = $msgs;
 
 header("Location: register.php");
