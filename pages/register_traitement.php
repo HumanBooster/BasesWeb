@@ -1,7 +1,4 @@
 <?php
-session_start();
-
-require("includes/functions.php");
 
 addMessage(0,"valid","Votre inscription a bien été prise en compte.");
 
@@ -36,4 +33,4 @@ if ($_FILES['photo_profil']['error']==UPLOAD_ERR_OK) {
 	}
 }
 
-header("Location: register.php");
+header("Location: index.php");

@@ -7,3 +7,27 @@ p {
  .rubrique {
  	color: orange;
  }
+
+/* forms */
+
+form label {
+	display: block;
+}
+
+form label[for=sex] label {
+	display: inline;
+}
+
+/* gest messages */
+
+p.message-error {
+	color: red;
+}
+
+p.message-info {
+	color: blue;
+}
+
+p.message-valid {
+	color: green;
+}

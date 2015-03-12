@@ -1,17 +1,5 @@
-<?php
-
-session_start();
-
-require("includes/functions.php");
-
-$title = "Formulaire d'enregistrement";
-
-include("blocs/header.php");
-
-            showMessages();
-?>
-
-        <form method="post" action="register_traitement.php" enctype="multipart/form-data">
+<!-- début register -->
+        <form method="post" action="index.php?page=register_traitement" enctype="multipart/form-data">
             <h2>Formulaire d'enregistrement</h2>
 
             <fieldset>
@@ -94,5 +82,3 @@ include("blocs/header.php");
 
             <input type="submit" value="S'enregistrer">
         </form>
-        
-<?php include("blocs/footer.php");
