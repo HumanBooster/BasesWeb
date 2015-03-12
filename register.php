@@ -4,20 +4,12 @@ session_start();
 
 require("includes/functions.php");
 
-?><!DOCTYPE html>
-<html>
-    <head>
-    	<!-- En-tête de la page -->
-        <meta charset="utf-8" />
-        <title>Formulaire d'enregistrement</title>
-        <link rel="stylesheet" href="register.css">
-    </head>
+$title = "Formulaire d'enregistrement";
 
-    <body>
+include("blocs/header.php");
 
-        <?php 
             showMessages();
-        ?>
+?>
 
         <form method="post" action="register_traitement.php" enctype="multipart/form-data">
             <h2>Formulaire d'enregistrement</h2>
@@ -102,7 +94,5 @@ require("includes/functions.php");
 
             <input type="submit" value="S'enregistrer">
         </form>
-
-    </body>
-
-</html>
+        
+<?php include("blocs/footer.php");
