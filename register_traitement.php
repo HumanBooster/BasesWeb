@@ -1,29 +1,7 @@
 <?php
 session_start();
 
-header("Content-Type: text/plain; charset=UTF-8");
-
-function addMessage($code, $type, $lib) {
-	$_SESSION['messages'][] = array("code"=>$code, "type" => $type, "lib" => $lib);
-}
-/*
-$newsletter = false;
-if (isset($_POST['newsletter'])) {
-	$newsletter = true;
-}
-
-$newsletter = ( isset($_POST['newsletter']) ? true : false);
-
-echo "<pre>\n";
-print_r($_POST);
-echo "</pre>\n";
-
-echo "<ul>\n";
-foreach ($_POST as $cle => $valeur) {
-	echo "\t<li>" . $cle ." = " . $valeur . "</li>\n";
-}
-echo "</ul>\n";
-*/
+require("includes/functions.php");
 
 addMessage(0,"valid","Votre inscription a bien été prise en compte.");
 

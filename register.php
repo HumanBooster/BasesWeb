@@ -2,6 +2,8 @@
 
 session_start();
 
+require("includes/functions.php");
+
 ?><!DOCTYPE html>
 <html>
     <head>
@@ -14,18 +16,7 @@ session_start();
     <body>
 
         <?php 
-            // on test l'existence de messages
-            if (isset($_SESSION['messages'])) {
-                // on affiche un bloc pour chaque message
-                foreach ($_SESSION['messages'] as $msg) {
-                    echo '<p class="message-'.$msg['type'].'">['.$msg['code'].'] '.$msg['lib']. "</p>\n";
-                }
-
-                // du coup on peut supprimer les messages
-                unset($_SESSION['messages']);
-                
-            }
-
+            showMessages();
         ?>
 
         <form method="post" action="register_traitement.php" enctype="multipart/form-data">
