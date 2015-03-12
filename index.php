@@ -1,33 +1,54 @@
 <?php
 
-$page = (isset($_GET['page']) ? $_GET['page'] : "home");
+/* initialisation */
 
 session_start();
 
+$page = (isset($_GET['page']) ? $_GET['page'] : "home");
+
 require("includes/functions.php");
 
-$title = "Formulaire d'enregistrement";
+/* analyse de la page demandée et création des variables */
 
-include("blocs/header.php");
-
-include("blocs/menu.php");
-
-// début corps de page
-showMessages();
+$montrerHtml = true;
 
 switch ($page) {
     case "register":
-        include("pages/register.php");
+        $titre = "Formulaire d'enregistrement";
+        $pageInclue = "pages/register.php";
         break;
     case "register_traitement":
-        include("pages/register_traitement.php");
+        $pageInclue = "pages/register_traitement.php";
+        $montrerHtml = false;
         break;
     case "home":
     default:
-        include("pages/home.php");
+        $titre = "Page d'accueil";
+        $pageInclue = "pages/home.php";
         break;
 }
 
-// fin corps de page
+// si cette page a un affichage graphique, tout inclure, sinon juste un script
+if ($montrerHtml) {
+    // le header contient le début de la page jusqu'à la balise <body>
+    include("blocs/header.php");
 
-include("blocs/footer.php");
+    // le menu est composé de la balise <nav> et de ses items
+    include("blocs/menu.php");
+
+    /* début corps de page */
+
+    // on affiche les messages éventuels
+    showMessages();
+
+    // on affiche le contenu principal de la page
+    include($pageInclue);
+
+    /* fin corps de page */
+
+    // on affiche le footer et on ferme la page html
+    include("blocs/footer.php");
+} else {
+    // on inclut le script demandé
+    include($pageInclue);
+}
