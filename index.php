@@ -1,5 +1,7 @@
 <?php
 
+//print_r($_SERVER);
+
 /* initialisation */
 
 session_start();

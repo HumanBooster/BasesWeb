@@ -1,0 +1,5 @@
+Options +FollowSymlinks
+
+RewriteEngine On
+
+RewriteRule ^(.*)\.html$ index.php?page=$1 [L]
