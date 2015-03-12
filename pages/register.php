@@ -1,4 +1,5 @@
 <!-- début register -->
+    <section>
         <form method="post" action="index.php?page=register_traitement" enctype="multipart/form-data">
             <h2>Formulaire d'enregistrement</h2>
 
@@ -82,3 +83,4 @@
 
             <input type="submit" value="S'enregistrer">
         </form>
+    </section>
