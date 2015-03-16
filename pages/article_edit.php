@@ -27,6 +27,7 @@ if (isset($_POST['submit'])) {
 	// on valide et on redirige
 	addMessage(0,"valid","Votre article a bien été inséré");
 	header("Location: index.php");
+	exit();
 
 } 
 
@@ -42,6 +43,7 @@ if ($id>0) {
 	} else {
 		addMessage(0,"error","Aucun article trouvé avec cet identifiant.");
 		header("Location: index.php");
+		exit();
 	}
 }
 

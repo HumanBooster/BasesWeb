@@ -38,8 +38,8 @@ switch ($page) {
         $pageInclue = "pages/article_edit.php";
         break;
     case "article_delete":
+        $titre = "Suppression d'un article";
         $pageInclue = "pages/article_delete.php";
-        $montrerHtml = false;
         break;
     case "home":
     default:
