@@ -18,17 +18,12 @@ if (isset($_POST['confirmer'])) {
 	$result = $db->exec($sql);
 
 	// on valide et on redirige
-	addMessage(0,"valid",$result . " article a été supprimé.");
-	header("Location: index.php");
-	exit();
-
+	addMessageRedirect(0,"valid",$result . " article a été supprimé.");
 }
 // on regarde si notre formulaire a été annulé
 else if (isset($_POST['annuler'])) {
 	// on ne fait rien et on redirige
-	addMessage(0,"info","La suppression a été annulée.");
-	header("Location: index.php");
-	exit();
+	addMessageRedirect(0,"info","La suppression a été annulée.");
 }
 
 // si on est jusqu'ici, il n'y a pas eu de redirection
@@ -41,9 +36,7 @@ if ($id>0) {
 	if ($article = $statement->fetch()) {
 		// notre article est pret à etre utilisé
 	} else {
-		addMessage(0,"error","Aucun article trouvé avec cet identifiant.");
-		header("Location: index.php");
-		exit();
+		addMessageRedirect(0,"error","Aucun article trouvé avec cet identifiant.");
 	}
 }
 

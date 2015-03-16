@@ -9,7 +9,7 @@ session_start();
 require("includes/db_connect.php");
 require("includes/functions.php");
 
-$page = (isset($_GET['page']) ? $_GET['page'] : "home");
+$page = (isset($_GET['page']) ? $_GET['page'] : "article_list");
 
 /* analyse de la page demandée et création des variables */
 

@@ -25,9 +25,7 @@ if (isset($_POST['submit'])) {
 	$result = $statement->execute();	
 
 	// on valide et on redirige
-	addMessage(0,"valid","Votre article a bien été inséré");
-	header("Location: index.php");
-	exit();
+	addMessageRedirect(0,"valid","Votre article a bien été inséré");
 
 } 
 
@@ -41,9 +39,7 @@ if ($id>0) {
 	if ($article = $statement->fetch()) {
 		// notre article est pret à etre utilisé
 	} else {
-		addMessage(0,"error","Aucun article trouvé avec cet identifiant.");
-		header("Location: index.php");
-		exit();
+		addMessageRedirect(0,"error","Aucun article trouvé avec cet identifiant.");
 	}
 }
 
