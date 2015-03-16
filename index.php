@@ -34,7 +34,7 @@ switch ($page) {
         break;
     case "article_add":
     case "article_edit":
-        $titre = "Lecture d'un article";
+        $titre = "Ajout/édition d'un article";
         $pageInclue = "pages/article_edit.php";
         break;
     case "article_delete":
