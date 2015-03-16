@@ -6,9 +6,10 @@
 
 session_start();
 
-$page = (isset($_GET['page']) ? $_GET['page'] : "home");
-
+require("includes/db_connect.php");
 require("includes/functions.php");
+
+$page = (isset($_GET['page']) ? $_GET['page'] : "home");
 
 /* analyse de la page demandée et création des variables */
 
@@ -21,6 +22,23 @@ switch ($page) {
         break;
     case "register_traitement":
         $pageInclue = "pages/register_traitement.php";
+        $montrerHtml = false;
+        break;
+    case "article_read":
+        $titre = "Lecture d'un article";
+        $pageInclue = "pages/article_read.php";
+        break;
+    case "article_list":
+        $titre = "Liste des articles";
+        $pageInclue = "pages/article_list.php";
+        break;
+    case "article_add":
+    case "article_edit":
+        $titre = "Lecture d'un article";
+        $pageInclue = "pages/article_edit.php";
+        break;
+    case "article_delete":
+        $pageInclue = "pages/article_delete.php";
         $montrerHtml = false;
         break;
     case "home":
