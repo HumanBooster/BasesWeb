@@ -3,6 +3,8 @@
 /* initialisation avec session_start() */
 require("includes/all.php");
 
+$articleRepo = new ArticleRepository($db);
+
 $page = (isset($_GET['page']) ? $_GET['page'] : "article_list");
 
 /* analyse de la page demandée et création des variables */

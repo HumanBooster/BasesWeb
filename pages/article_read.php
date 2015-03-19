@@ -2,19 +2,8 @@
 // on récupère l'id de l'article à travers la var GET
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// on forge la requete SQL
-$sql = "SELECT * FROM article WHERE id=".$id;
-
-// on passe la requete SQL à PDO
-$statement = $db->query($sql);
-
-// on récupère le premier (et unique) résultat de la requete
-// si on a un article on l'affiche
-
-//if ($article = $statement->fetchObject("Article")) {
-$statement->setFetchMode(PDO::FETCH_CLASS, "Article");
-
-if ($article = $statement->fetch()) {
+$article = $articleRepo->get($id);
+if ($article) {
     
 // on affiche l'article 
 ?>
