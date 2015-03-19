@@ -10,15 +10,21 @@ $statement = $db->query($sql);
 
 // on récupère le premier (et unique) résultat de la requete
 // si on a un article on l'affiche
-if ($article = $statement->fetch()) {
 
+//if ($article = $statement->fetchObject("Article")) {
+$statement->setFetchMode(PDO::FETCH_CLASS, "Article");
+
+if ($article = $statement->fetch()) {
+    
 // on affiche l'article 
 ?>
 <h2>Lecture d'un article</h2>
 
-<article id="<?php echo $article['id']; ?>">
-	<h1><?php echo $article['title']; ?></h1>
-	<p><?php echo nl2br($article['content']); ?></p>
+
+
+<article id="<?php echo $article->id; ?>">
+	<h1><?php echo $article->title; ?></h1>
+	<p><?php echo nl2br($article->content); ?></p>
 </article>
 
 <?php 

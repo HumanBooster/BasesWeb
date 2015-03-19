@@ -7,6 +7,8 @@ $statement = $db->query($sql);
 
 // on récupère le premier (et unique) résultat de la requete
 // si on a un article on l'affiche
+$statement->setFetchMode(PDO::FETCH_CLASS, "Article");
+
 if ($articles = $statement->fetchAll()) {
 	$nbRows = count($articles);
 
@@ -16,10 +18,10 @@ if ($articles = $statement->fetchAll()) {
 <ul>
 <?php 
 	foreach ($articles as $article) { ?>
-<li id="<?php echo $article['id']; ?>">
-	<a href="index.php?page=article_read&id=<?php echo $article['id']; ?>"><?php echo $article['title']; ?></a>
-	- <a href="index.php?page=article_edit&id=<?php echo $article['id']; ?>">edit</a>
-	- <a href="index.php?page=article_delete&id=<?php echo $article['id']; ?>">delete</a>
+<li id="<?php echo $article->id; ?>">
+	<a href="index.php?page=article_read&id=<?php echo $article->id; ?>"><?php echo $article->title; ?></a>
+	- <a href="index.php?page=article_edit&id=<?php echo $article->id; ?>">edit</a>
+	- <a href="index.php?page=article_delete&id=<?php echo $article->id; ?>">delete</a>
 </li>
 <?php 
 	}
