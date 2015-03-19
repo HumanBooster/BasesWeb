@@ -1,11 +1,7 @@
 <?php
 
-/* initialisation */
-
-session_start();
-
-require("includes/db_connect.php");
-require("includes/functions.php");
+/* initialisation avec session_start() */
+require("includes/all.php");
 
 $page = (isset($_GET['page']) ? $_GET['page'] : "article_list");
 
