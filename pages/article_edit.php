@@ -36,6 +36,7 @@ if ($id>0) {
 	$sql = "SELECT * FROM article WHERE id=".$id;
 	$statement = $db->query($sql);
 
+        $statement->setFetchMode(PDO::FETCH_CLASS, "Article");
 	if ($article = $statement->fetch()) {
 		// notre article est pret à etre utilisé
 	} else {
@@ -47,9 +48,9 @@ if ($id>0) {
 <h2>Ajout/édition d'un article</h2>
 
 <form method="post" action="index.php?page=article_edit">
-	<label>Title :<input type="text" name="title" value="<?php echo ($id>0 ? $article['title'] : ""); ?>" /></label>
+	<label>Title :<input type="text" name="title" value="<?php echo ($id>0 ? $article->title : ""); ?>" /></label>
 	<label>Content:
-		<textarea name="content"><?php echo ($id>0 ? $article['content'] : ""); ?></textarea>
+		<textarea name="content"><?php echo ($id>0 ? $article->content : ""); ?></textarea>
 	</label>
 	<input type="hidden" name="id" value="<?php echo $id; ?>" />
 	<input type="submit" name="submit" value="Envoyer" />
