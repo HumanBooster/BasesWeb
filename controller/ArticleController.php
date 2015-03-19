@@ -27,29 +27,9 @@ class ArticleController {
         // on forge la requete SQL
         $articles = $this->repo->getAll();
 
-        if ($articles) {
-                $nbRows = count($articles);
-
-        // on affiche l'article 
-        $html = '<h2>Liste des articles ('.$nbRows.')</h2>
-        <ul>';
-            foreach ($articles as $article) {
-                $html .= "\n".'<li id="'. $article->id . '">'
-                . '<a href="index.php?page=article_read&id='. $article->id .'">'. $article->title .'</a>'
-                . '- <a href="index.php?page=article_edit&id='.$article->id.'">edit</a>'
-                . '- <a href="index.php?page=article_delete&id='. $article->id .'">delete</a>'
-                . '</li>';
-            }
-        $html .= '</ul>';
-
-        // sinon on affiche un message d'erreur
-        } else {
-                $html = "<h2>Aucun article avec cet identifiant.</h2>";
-        }
-
-        $html .= '<p><a href="index.php?page=article_add">Ajouter un article</a></p>';
+        $view = new View("article.index", array("articles" => $articles));
         
-        return $html;
+        return $view->getHtml();
     }
     
     /**
@@ -64,22 +44,9 @@ class ArticleController {
         // on demande l'article au repo
         $article = $this->repo->get($id);
 
-        if ($article) {
-
-        // on affiche l'article 
-            $html = '<h2>Lecture d\'un article</h2>
-
-            <article id="'.$article->id.'">
-                <h1>'. $article->title .'</h1>
-                <p>'. nl2br($article->content) .'</p>
-            </article>';
-
-        // sinon on affiche un message d'erreur
-        } else {
-            $html = "<h2>Aucun article avec cet identifiant.</h2>";
-        }
+        $view = new View("article.read", array("article" => $article));
         
-        return $html;
+        return $view->getHtml();
     }
 
 }
