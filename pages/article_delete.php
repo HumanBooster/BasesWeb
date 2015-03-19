@@ -33,6 +33,7 @@ if ($id>0) {
 	$sql = "SELECT * FROM article WHERE id=".$id;
 	$statement = $db->query($sql);
 
+        $statement->setFetchMode(PDO::FETCH_CLASS, "Article");
 	if ($article = $statement->fetch()) {
 		// notre article est pret à etre utilisé
 	} else {
@@ -45,7 +46,7 @@ if ($id>0) {
 
 <form method="post" action="index.php?page=article_delete">
 	<p><strong>Voulez-vous confirmer la suppression de l'article <?php echo $id; ?> ?<strong></p>
-	<p>Titre : <?php echo $article['title']; ?></p>
+	<p>Titre : <?php echo $article->title; ?></p>
 	<input type="hidden" name="id" value="<?php echo $id; ?>" />
 	<input type="submit" name="confirmer" value="Confirmer" />
 	<input type="submit" name="annuler" value="Annuler" />
