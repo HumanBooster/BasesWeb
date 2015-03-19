@@ -4,6 +4,7 @@
 require("includes/all.php");
 
 $articleRepo = new ArticleRepository($db);
+$articleController = new ArticleController($articleRepo);
 
 $page = (isset($_GET['page']) ? $_GET['page'] : "article_list");
 
@@ -21,8 +22,9 @@ switch ($page) {
         $montrerHtml = false;
         break;
     case "article_read":
+        $html = $articleController->readAction();
         $titre = "Lecture d'un article";
-        $pageInclue = "pages/article_read.php";
+        $pageInclue = "DEPREC";
         break;
     case "article_list":
         $titre = "Liste des articles";
@@ -58,7 +60,11 @@ if ($montrerHtml) {
     showMessages();
 
     // on affiche le contenu principal de la page
-    include($pageInclue);
+    // @todo finish me
+    if ($pageInclue != "DEPREC")
+        include($pageInclue);
+    else
+        echo $html;
 
     /* fin corps de page */
 
