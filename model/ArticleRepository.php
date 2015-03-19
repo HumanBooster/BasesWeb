@@ -12,9 +12,9 @@
  * @author humanbooster
  */
 class ArticleRepository {
-    
+
     private $db;
-    
+
     public function __construct($db) {
         $this->db = $db;
     }
@@ -42,4 +42,39 @@ class ArticleRepository {
 
         return $article;
     }
+
+    /**
+     * Returns every article in the database
+     * 
+     * @return mixed Returns an array or false
+     */
+    public function getAll() {
+        // on forge la requete SQL
+        $sql = "SELECT * FROM article";
+
+        // on passe la requete SQL à PDO
+        $statement = $this->db->query($sql);
+
+        // on récupère le premier (et unique) résultat de la requete
+        // si on a un article on l'affiche
+        $statement->setFetchMode(PDO::FETCH_CLASS, "Article");
+
+        $articles = $statement->fetchAll();
+        return $articles;
+    }
+    
+    /**
+     * Deletes an article from the database
+     * 
+     * @param int $id Id of an article
+     * @return int Number of modified entries 
+     */
+    public function remove($id) {
+        // si on a un id (GET ou POST), on déclenche la suppression
+	$sql = "DELETE FROM article WHERE id=".$id;
+
+	// requete préparée PDO
+	return $this->db->exec($sql);
+    }
+
 }
