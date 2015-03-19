@@ -1,15 +1,8 @@
 <?php 
 // on forge la requete SQL
-$sql = "SELECT * FROM article";
+$articles = $articleRepo->getAll();
 
-// on passe la requete SQL à PDO
-$statement = $db->query($sql);
-
-// on récupère le premier (et unique) résultat de la requete
-// si on a un article on l'affiche
-$statement->setFetchMode(PDO::FETCH_CLASS, "Article");
-
-if ($articles = $statement->fetchAll()) {
+if ($articles) {
 	$nbRows = count($articles);
 
 // on affiche l'article 

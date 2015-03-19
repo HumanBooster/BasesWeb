@@ -27,8 +27,9 @@ switch ($page) {
         $pageInclue = "DEPREC";
         break;
     case "article_list":
+        $html = $articleController->indexAction();
         $titre = "Liste des articles";
-        $pageInclue = "pages/article_list.php";
+        $pageInclue = "DEPREC";
         break;
     case "article_add":
     case "article_edit":
