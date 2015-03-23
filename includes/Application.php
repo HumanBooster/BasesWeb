@@ -133,19 +133,22 @@ class Application {
     }
 
     /**
-     * Will try to find a service - include and instance it if
+     * Try to find/load a service - include and instance it if
      * needed, then returns it.
      * 
      * @example services/RepositoryService.php see RepositoryService for an example
      * 
-     * @param type $id
-     * @return type
+     * @param string $id
+     * @return object
      */
     function getService($id) {
+        // id du service
         $id = strtolower($id);
+        // si le service existe déjà on le retourne
         if (isset($this->services[$id]))
             return $this->services[$id];
         else {
+            // sinon on le charge
             $class = ucfirst($id) . "Service";
             $filename = "services/" . $class . ".php";
             if (file_exists($filename)) {
@@ -154,6 +157,8 @@ class Application {
                 return $this->services[$id];
             }
         }
+        // enfin, si on a rien retourné, c'est qu'on a rien trouvé
+        Application::addMessage(0, "error", "Impossible de charger le service ".$id);
         return null;
     }
 
