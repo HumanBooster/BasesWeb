@@ -8,9 +8,9 @@ if ($articles) {
     <ul>
         <?php foreach ($articles as $article) { ?>
             <li id="<?php echo $article->id; ?>">
-                <a href="index.php?page=article_read&id=<?php echo $article->id; ?>"><?php echo $article->title; ?></a>
-                - <a href="index.php?page=article_edit&id=<?php echo $article->id; ?>">edit</a>
-                - <a href="index.php?page=article_delete&id=<?php echo $article->id; ?>">delete</a>
+                <a href="index.php?controller=article&action=read&id=<?php echo $article->id; ?>"><?php echo $article->title; ?></a>
+                - <a href="index.php?controller=article&action=edit&id=<?php echo $article->id; ?>">edit</a>
+                - <a href="index.php?controller=article&action=delete&id=<?php echo $article->id; ?>">delete</a>
             </li>
         <?php
     }
@@ -24,4 +24,4 @@ if ($articles) {
         <?php
     }
     ?>
-<p><a href="index.php?page=article_add">Ajouter un article</a></p>
+<p><a href="index.php?controller=article&action=add">Ajouter un article</a></p>
