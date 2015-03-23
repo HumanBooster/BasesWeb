@@ -3,79 +3,103 @@
 /* initialisation avec session_start() */
 require("includes/all.php");
 
-$articleRepo = new ArticleRepository($db);
-$articleController = new ArticleController($articleRepo);
 
-/* DEPREC
- * analyse de la page demandée et création des variables */
+// I. On récupère l'action demandée par l'utilisateur, avec retrocompatibilité
 
-$page = (isset($_GET['page']) ? $_GET['page'] : "article_list");
+// Controller et Entité
+$entityName = (isset($_GET['controller']) ? $_GET['controller'] : "article");
+// on retravaille le nom pour obtenir un nom de la forme "Article"
+$entityName = ucfirst(strtolower($entityName));
 
-$montrerHtml = true;
+// Action
+$actionName = (isset($_GET['action']) ? $_GET['action'] : "index");
+$actionName = strtolower($actionName);
 
-switch ($page) {
-    case "register":
-        $titre = "Formulaire d'enregistrement";
-        $pageInclue = "pages/register.php";
-        break;
-    case "register_traitement":
-        $pageInclue = "pages/register_traitement.php";
-        $montrerHtml = false;
-        break;
-    case "article_read":
-        $html = $articleController->readAction();
-        $titre = "Lecture d'un article";
-        $pageInclue = "DEPREC";
-        break;
-    case "article_list":
-        $html = $articleController->indexAction();
-        $titre = "Liste des articles";
-        $pageInclue = "DEPREC";
-        break;
-    case "article_add":
-    case "article_edit":
-        $html = $articleController->editAction();
-        $titre = "Ajout/édition d'un article";
-        $pageInclue = "DEPREC";
-        break;
-    case "article_delete":
-        $html = $articleController->deleteAction();
-        $titre = "Suppression d'un article";
-        $pageInclue = "DEPREC";
-        break;
-    case "home":
-    default:
-        $titre = "Page d'accueil";
-        $pageInclue = "pages/home.php";
-        break;
+/** DEPREC - retrocompatibilité **/
+$page = (isset($_GET['page']) ? $_GET['page'] : "DEPREC");
+if ($page != "DEPREC") {
+    // on nous a passé une page, gérons là mais alertons l'utilisateur
+    addMessage(0, "warning", "page est deprec, il faut utiliser le controller et l'action");
+    switch($page) {
+        case "article_read":
+            $entityName = "Article";
+            $actionName = "read";
+            break;
+        case "article_delete":
+            $entityName = "Article";
+            $actionName = "delete";
+            break;
+        case "article_add":
+        case "article_edit":
+            $entityName = "Article";
+            $actionName = "edit";
+            break;
+        case "article_list":
+            $entityName = "Article";
+            $actionName = "index";
+            break;   
+    }
 }
 
+// II. On charge les fichiers nécessaires, et on instancie les classes de reco, controller
 
-// si cette page a un affichage graphique, tout inclure, sinon juste un script
-if ($montrerHtml) {
-    // le header contient le début de la page jusqu'à la balise <body>
-    include("blocs/header.php");
+// on retravaille la var obtenue pour obtenir un nom de la forme "ArticleController"
+$controllerName = $entityName . "Controller";
+// on inclut le controller
+include("controller/" . $controllerName . ".php");
+// on inclut l'entité
+include("model/" . $entityName . ".php");
 
-    // le menu est composé de la balise <nav> et de ses items
-    include("blocs/menu.php");
+// Repo - @todo Utiliser un gestionnaire de repo et les charger
+// depuis les actions de controller
+$repoName = ucfirst(strtolower($entityName)) . "Repository";
+include("model/" . $repoName . ".php");
 
-    /* début corps de page */
 
-    // on affiche les messages éventuels
-    showMessages();
+// on instancie un nouveau repo
+$repo = new $repoName($db);
 
-    // on affiche le contenu principal de la page
-    // @todo finish me
-    if ($pageInclue != "DEPREC")
-        include($pageInclue);
-    else
-        echo $html;
+// on instancie le controller
+$controller = new $controllerName($repo);
 
-    /* fin corps de page */
 
-    // on affiche le footer et on ferme la page html
-    include("blocs/footer.php");
-} else {
-    // on inclut le script demandé
-    include($pageInclue);
+// III. On regarde si l'action de controller existe, puis on la charge
+
+// on retravaille la var obtenue pour obtenir un nom de la forme "indexAction"
+$action = $actionName . "Action";
+
+// si la méthode demandée n'existe pas, remettre "index"
+if (!method_exists($controller, $action)) {
+    $actionName = "index";
+    $action = "indexAction";
 }
+
+// on stock le titre sous la forme "Article - Index"
+$titre = $entityName . " - " . $actionName;
+
+// on appelle dynamiquement la méthode de controller
+$html = $controller->$action();
+
+// IV. On déclenche l'affichage de la page
+
+// plus besoin de tester l'affichage vu que les redirection empêcheront
+// d'atteindre le return dans le controller
+
+// le header contient le début de la page jusqu'à la balise <body>
+include("blocs/header.php");
+
+// le menu est composé de la balise <nav> et de ses items
+include("blocs/menu.php");
+
+/* début corps de page */
+
+// on affiche les messages éventuels
+showMessages();
+
+// on affiche le contenu principal de la page
+echo $html;
+
+/* fin corps de page */
+
+// on affiche le footer et on ferme la page html
+include("blocs/footer.php");
