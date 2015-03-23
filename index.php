@@ -41,7 +41,7 @@ if ($page != "DEPREC") {
     }
 }
 
-// II. On charge les fichiers nécessaires, et on instancie les classes de reco, controller
+// III. / IV. On charge les fichiers nécessaires, et on instancie les classes de reco, controller
 
 // on retravaille la var obtenue pour obtenir un nom de la forme "ArticleController"
 $controllerName = $entityName . "Controller";
@@ -63,7 +63,7 @@ $repo = new $repoName($db);
 $controller = new $controllerName($repo);
 
 
-// III. On regarde si l'action de controller existe, puis on la charge
+// V. On regarde si l'action de controller existe, puis on la charge
 
 // on retravaille la var obtenue pour obtenir un nom de la forme "indexAction"
 $action = $actionName . "Action";
@@ -80,7 +80,7 @@ $titre = $entityName . " - " . $actionName;
 // on appelle dynamiquement la méthode de controller
 $html = $controller->$action();
 
-// IV. On déclenche l'affichage de la page
+// VI. On déclenche l'affichage de la page
 
 // plus besoin de tester l'affichage vu que les redirection empêcheront
 // d'atteindre le return dans le controller

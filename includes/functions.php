@@ -22,14 +22,3 @@ function showMessages() {
         unset($_SESSION['messages']);
     }
 }
-
-// mise en forme
-// système, include dans une variable
-function get_include_contents($filename) {
-    if (is_file($filename)) {
-        ob_start();
-        include $filename;
-        return ob_get_clean();
-    }
-    return false;
-}
