@@ -16,7 +16,7 @@ class View {
     private $template;
     private $params;
 
-    public function __construct($template, $params) {
+    public function __construct($template, $params = array()) {
         $this->template = $template;
         $this->params = $params;
     }

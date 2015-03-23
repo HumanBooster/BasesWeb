@@ -94,19 +94,19 @@ class Application {
         $this->title = $entityName . " - " . $actionName;
 
         // on appelle dynamiquement la méthode de controller
-        $this->html = $controller->$action();
+        $this->content = $controller->$action();
     }
 
-    function renderContent() {
+    function renderResponse() {
         // le header contient le début de la page jusqu'à la balise <body>
         // on redéclare title pour le header
-        // @todo utiliser une vue
-        $title = $this->title;
-        
-        include("blocs/header.php");
+        $header = new View('global.header', array('title' => $this->title));
+        echo $header->getHtml();
+
 
         // le menu est composé de la balise <nav> et de ses items
-        include("blocs/menu.php");
+        $menu = new View('global.menu');
+        echo $menu->getHtml();
 
         /* début corps de page */
 
@@ -115,12 +115,13 @@ class Application {
 
         // on affiche le contenu principal de la page
 
-        echo $this->html;
+        echo $this->content;
 
         /* fin corps de page */
 
         // on affiche le footer et on ferme la page html
-        include("blocs/footer.php");
+        $footer = new View('global.footer');
+        echo $footer->getHtml();
     }
 
     function getService($id) {
