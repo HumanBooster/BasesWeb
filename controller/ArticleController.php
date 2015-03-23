@@ -14,18 +14,23 @@
 class ArticleController {
 
     /**
-     *
-     * @var type 
-     * @deprecated since version 1
+     * Stores the application (Dependency Injection pattern)
+     * 
+     * @var Application 
      */
     private $app;
 
+    /**
+     * Constructor of the class ArticleController
+     * 
+     * @param Application $app
+     */
     public function __construct($app) {
         $this->app = $app;
     }
 
     /**
-     * Index will show every article into a list
+     * Index action will show every article into a list
      * 
      * @return string HTML code of the content of page
      */
@@ -40,7 +45,7 @@ class ArticleController {
     }
 
     /**
-     * Allow the users to read an article on a given id via GET
+     * Action that allows the users to read an article on a given id via GET
      * 
      * @return string HTML code of the content of page
      */
@@ -152,6 +157,12 @@ class ArticleController {
         return $view->getHtml();
     }
     
+    /**
+     * Returns the repository of the required entity
+     * 
+     * @param string $entity
+     * @return Repository (currently ArticleRepository only)
+     */
     private function getRepository($entity) {
         return $this->app->getService("repository")->get($entity);
     }

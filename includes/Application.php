@@ -1,13 +1,7 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of Application
+ * Application is the main class of our website
  *
  * @author humanbooster
  */
@@ -18,10 +12,19 @@ class Application {
     private $content;
     private $db;
     
+    /**
+     * Constructor of the Application on a given PDO object
+     * 
+     * @param PDO $db
+     */
     function __construct($db) {
         $this->db = $db;
     }
 
+    /**
+     * This is the main method of our App. Will look for a controller
+     * and action in GET and dispatch our request
+     */
     function handleRequest() {
         // I. On récupère l'action demandée par l'utilisateur, avec retrocompatibilité
         // Controller et Entité
@@ -97,6 +100,11 @@ class Application {
         $this->content = $controller->$action();
     }
 
+    /**
+     * Push the response to output. Layout is to be found here.
+     * 
+     * @todo Put that somewhere else
+     */
     function renderResponse() {
         // le header contient le début de la page jusqu'à la balise <body>
         // on redéclare title pour le header
@@ -124,6 +132,15 @@ class Application {
         echo $footer->getHtml();
     }
 
+    /**
+     * Will try to find a service - include and instance it if
+     * needed, then returns it.
+     * 
+     * @example services/RepositoryService.php see RepositoryService for an example
+     * 
+     * @param type $id
+     * @return type
+     */
     function getService($id) {
         $id = strtolower($id);
         if (isset($this->services[$id]))
@@ -140,6 +157,9 @@ class Application {
         return null;
     }
 
+    /**
+     * This static function will show any message stored in SESSION
+     */
     static private function showMessages() {
         if (isset($_SESSION['messages'])) {
             // on affiche un bloc pour chaque message
@@ -152,22 +172,47 @@ class Application {
         }
     }
 
-    // gestion des messages
+    /**
+     * Static function to add a message into the stack
+     * 
+     * @param int $code arbitrary error code
+     * @param string $type warning|info|debug|error
+     * @param string $lib message
+     */
     static function addMessage($code, $type, $lib) {
         $_SESSION['messages'][] = array("code" => $code, "type" => $type, "lib" => $lib);
     }
 
+    /**
+     * Adds a message to stack and redirects to index.php or given url
+     * 
+     * @param int $code arbitrary error code
+     * @param string $type warning|info|debug|error
+     * @param string $lib message
+     * @param string $url Relative or absolute ?
+     */
     static function addMessageRedirect($code, $type, $lib, $url = "index.php") {
         self::addMessage($code, $type, $lib);
         self::redirect($url);
     }
 
+    /**
+     * Redirects to the given url.
+     * 
+     * @param type $url
+     * @param type $die
+     */
     static function redirect($url, $die = true) {
         header("Location: " . $url);
         if ($die)
             exit();
     }
     
+    /**
+     * Returns the PDO $db object
+     * 
+     * @return PDO
+     */
     function getDb() {
         return $this->db;
     }

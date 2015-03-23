@@ -1,4 +1,7 @@
 <?php
+/**
+ * All static includes should go here
+ */
 
 session_start();
 
