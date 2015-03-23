@@ -37,7 +37,7 @@ class Application {
         $actionName = strtolower($actionName);
 
         /** DEPREC - retrocompatibilité * */
-        $page = (isset($_GET['page']) ? $_GET['page'] : "DEPREC");
+        /*$page = (isset($_GET['page']) ? $_GET['page'] : "DEPREC");
         if ($page != "DEPREC") {
             // on nous a passé une page, gérons là mais alertons l'utilisateur
             $this->addMessage(0, "warning", "page est deprec, il faut utiliser le controller et l'action");
@@ -60,11 +60,12 @@ class Application {
                     $actionName = "index";
                     break;
             }
-        }
+        }*/
 
         // III. / IV. On charge les fichiers nécessaires, et on instancie les classes de reco, controller
         // on retravaille la var obtenue pour obtenir un nom de la forme "ArticleController"
         $controllerName = $entityName . "Controller";
+        
         // on inclut le controller
         include("controller/" . $controllerName . ".php");
         // on inclut l'entité
@@ -167,11 +168,9 @@ class Application {
      */
     static private function showMessages() {
         if (isset($_SESSION['messages'])) {
-            // on affiche un bloc pour chaque message
-            foreach ($_SESSION['messages'] as $msg) {
-                echo '<p class="message-' . $msg['type'] . '">[' . $msg['code'] . '] ' . $msg['lib'] . "</p>\n";
-            }
-
+         
+            $messages = new View("global.messages", array("messages" => $_SESSION['messages']));
+            echo $messages->getHtml();
             // du coup on peut supprimer les messages
             unset($_SESSION['messages']);
         }
