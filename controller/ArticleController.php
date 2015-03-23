@@ -13,6 +13,11 @@
  */
 class ArticleController {
 
+    /**
+     *
+     * @var type 
+     * @deprecated since version 1
+     */
     private $repo;
 
     public function __construct($repo) {
@@ -47,7 +52,7 @@ class ArticleController {
             $article = $this->repo->get($id);
 
             if (!$article) {
-                addMessageRedirect(0, "error", "Aucun article trouvé avec cet identifiant.");
+                Application::addMessageRedirect(0, "error", "Aucun article trouvé avec cet identifiant.");
             }
         }
 
@@ -75,12 +80,12 @@ class ArticleController {
             $result = $this->repo->remove($id);
 
             // on valide et on redirige
-            addMessageRedirect(0, "valid", $result . " article a été supprimé.");
+            Application::addMessageRedirect(0, "valid", $result . " article a été supprimé.");
         }
         // on regarde si notre formulaire a été annulé
         else if (isset($_POST['annuler'])) {
             // on ne fait rien et on redirige
-            addMessageRedirect(0, "info", "La suppression a été annulée.");
+            Application::addMessageRedirect(0, "info", "La suppression a été annulée.");
         }
 
         // si on est jusqu'ici, il n'y a pas eu de redirection
@@ -90,7 +95,7 @@ class ArticleController {
             $article = $this->repo->get($id);
 
             if (!$article) {
-                addMessageRedirect(0, "error", "Aucun article trouvé avec cet identifiant.");
+                Application::addMessageRedirect(0, "error", "Aucun article trouvé avec cet identifiant.");
             }
         }
 
@@ -123,7 +128,7 @@ class ArticleController {
             $this->repo->persist($article);
 
             // on valide et on redirige
-            addMessageRedirect(0, "valid", "Votre article a bien été ".
+            Application::addMessageRedirect(0, "valid", "Votre article a bien été ".
                     ($id>0 ? "mis à jour" : "ajouté"));
         }
 
@@ -134,7 +139,7 @@ class ArticleController {
             $article = $this->repo->get($id);
 
             if (!$article)
-                addMessageRedirect(0, "error", "Aucun article trouvé avec cet identifiant.");
+                Application::addMessageRedirect(0, "error", "Aucun article trouvé avec cet identifiant.");
         } else {
             // on instancie un nouvel article alors pour avoir quelque chose à afficher
             // dans le formulaire d'édition
