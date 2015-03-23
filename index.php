@@ -6,9 +6,10 @@ require("includes/all.php");
 $articleRepo = new ArticleRepository($db);
 $articleController = new ArticleController($articleRepo);
 
-$page = (isset($_GET['page']) ? $_GET['page'] : "article_list");
+/* DEPREC
+ * analyse de la page demandée et création des variables */
 
-/* analyse de la page demandée et création des variables */
+$page = (isset($_GET['page']) ? $_GET['page'] : "article_list");
 
 $montrerHtml = true;
 
@@ -33,12 +34,14 @@ switch ($page) {
         break;
     case "article_add":
     case "article_edit":
+        $html = $articleController->editAction();
         $titre = "Ajout/édition d'un article";
-        $pageInclue = "pages/article_edit.php";
+        $pageInclue = "DEPREC";
         break;
     case "article_delete":
+        $html = $articleController->deleteAction();
         $titre = "Suppression d'un article";
-        $pageInclue = "pages/article_delete.php";
+        $pageInclue = "DEPREC";
         break;
     case "home":
     default:
@@ -46,6 +49,7 @@ switch ($page) {
         $pageInclue = "pages/home.php";
         break;
 }
+
 
 // si cette page a un affichage graphique, tout inclure, sinon juste un script
 if ($montrerHtml) {
