@@ -14,17 +14,22 @@
 class RepositoryService {
     
     private $repos;
+    private $app;
+    
+    function __construct(Application $app) {
+        $this->app = $app;
+    }
     
     function get($id) {
         $id = strtolower($id);
-        if (!isset($this->repos[$id]))
+        if (isset($this->repos[$id]))
             return $this->repos[$id];
         else {
             $class = ucfirst($id) . "Repository";
             $filename = "model/" . $class . ".php";
             if (file_exists($filename)) {
-                include($filename);
-                $this->repos[$id] = new $class();
+                include_once($filename);
+                $this->repos[$id] = new $class($this->app->getDb());
                 return $this->repos[$id];
             }
         }

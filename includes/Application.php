@@ -74,10 +74,10 @@ class Application {
 
 
         // on instancie un nouveau repo
-        $repo = new $repoName($this->db);
+        //$repo = new $repoName($this->db);
 
         // on instancie le controller
-        $controller = new $controllerName($repo);
+        $controller = new $controllerName($this);
 
 
         // V. On regarde si l'action de controller existe, puis on la charge
@@ -126,14 +126,14 @@ class Application {
 
     function getService($id) {
         $id = strtolower($id);
-        if (!isset($this->services[$id]))
+        if (isset($this->services[$id]))
             return $this->services[$id];
         else {
             $class = ucfirst($id) . "Service";
             $filename = "services/" . $class . ".php";
             if (file_exists($filename)) {
                 include($filename);
-                $this->services[$id] = new $class();
+                $this->services[$id] = new $class($this);
                 return $this->services[$id];
             }
         }
@@ -166,6 +166,10 @@ class Application {
         header("Location: " . $url);
         if ($die)
             exit();
+    }
+    
+    function getDb() {
+        return $this->db;
     }
 
 }
