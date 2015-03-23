@@ -24,4 +24,4 @@ if ($articles) {
         <?php
     }
     ?>
-<p><a href="index.php?controller=article&action=add">Ajouter un article</a></p>
+<p><a href="index.php?controller=article&action=edit">Ajouter un article</a></p>
