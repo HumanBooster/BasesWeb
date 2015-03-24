@@ -236,7 +236,7 @@ class Application {
      * 
      * @return PDO
      */
-    function getDb() {
+    function &getDb() {
         return $this->db;
     }
 

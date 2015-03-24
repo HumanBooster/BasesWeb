@@ -46,10 +46,15 @@ abstract class Repository {
         $statement = $this->db->query($sql);
 
         // on récupère le premier (et unique) résultat de la requete
-        $statement->setFetchMode(PDO::FETCH_CLASS, ucfirst($this->table));
+        //$statement->setFetchMode(PDO::FETCH_CLASS, ucfirst($this->table));
 
-        $object = $statement->fetch();
-
+        $assoc = $statement->fetch();
+        
+        $class = ucfirst($this->table);
+        
+        $object = new $class();
+        $object->bind($assoc);
+        
         return $object;
     }
 

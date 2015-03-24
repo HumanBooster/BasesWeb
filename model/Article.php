@@ -5,7 +5,7 @@
  *
  * @author humanbooster
  */
-class Article {
+class Article extends Entity {
     /**
      * Id of the article
      * 

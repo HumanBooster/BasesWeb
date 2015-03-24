@@ -20,7 +20,7 @@ if ($articles) {
 // sinon on affiche un message d'erreur
     } else {
         ?>
-        <h2>Aucun article avec cet identifiant.</h2>
+        <h2>Aucun article.</h2>
         <?php
     }
     ?>

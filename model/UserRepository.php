@@ -35,16 +35,12 @@ class UserRepository extends Repository {
 
         // requete préparée PDO
         $statement = $this->db->prepare($sql);
-        $statement->bindParam(":login", $user->login);
-        $statement->bindParam(":email", $user->email);
-        $statement->bindParam(":password", $user->password);
-        $statement->bindParam(":name", $user->name);
-        $statement->bindParam(":birth_date", $user->birth_date);
-        $statement->bindParam(":register_date", $user->register_date);
-        $statement->bindParam(":last_login_date", $user->last_login_date);
         
-        $result = $statement->execute();
-
+        $assoc = $user->getAssoc();
+        
+        
+        $result = $statement->execute($assoc);
+        //print_r($statement->errorInfo()); die();
         return $result;
     }
 

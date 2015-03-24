@@ -32,7 +32,7 @@ class RepositoryService {
      * 
      * @param Application $app
      */
-    function __construct(Application $app) {
+    function __construct(Application &$app) {
         $this->app = $app;
     }
 
