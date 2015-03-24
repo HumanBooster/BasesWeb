@@ -20,8 +20,15 @@ class Entity {
      * @param array $post Associative array
      */
     public function bind($post) {
+        // on définit des clés à sauter ici
+        $noBind = array("email_confirm", "password_confirm", "submit");
+        
         // on boucle sur le tableau associatif et on récupère cle et valeur
         foreach ($post as $key => $value) {
+            // on saute les clés à ne pas binder
+            if (in_array($key, $noBind))
+                    continue; // continue passe à la prochaine occurence de la boucle
+            
             // on cherche une propriete identique à la clé
             if (property_exists(get_class($this), $key)) {
                 // si on trouve, on lui assigne la valeur

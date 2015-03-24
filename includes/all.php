@@ -10,4 +10,5 @@ require("includes/functions.php");
 require("view/View.php");
 require("model/Entity.php");
 require("model/Repository.php");
+require("controller/Controller.php");
 require("includes/Application.php");

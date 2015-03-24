@@ -11,23 +11,8 @@
  *
  * @author humanbooster
  */
-class ArticleController {
+class ArticleController extends Controller {
 
-    /**
-     * Stores the application (Dependency Injection pattern)
-     * 
-     * @var Application 
-     */
-    private $app;
-
-    /**
-     * Constructor of the class ArticleController
-     * 
-     * @param Application $app
-     */
-    public function __construct($app) {
-        $this->app = $app;
-    }
 
     /**
      * Index action will show every article into a list
@@ -127,9 +112,7 @@ class ArticleController {
                 $id = (int) $_POST['id'];
 
             $article = new Article();
-            $article->id = $id;
-            $article->title = $_POST['title'];
-            $article->content = $_POST['content'];
+            $article->bind($_POST);
 
             $this->getRepository("article")->persist($article);
 
@@ -157,14 +140,6 @@ class ArticleController {
         return $view->getHtml();
     }
     
-    /**
-     * Returns the repository of the required entity
-     * 
-     * @param string $entity
-     * @return Repository (currently ArticleRepository only)
-     */
-    private function getRepository($entity) {
-        return $this->app->getService("repository")->get($entity);
-    }
+
 
 }

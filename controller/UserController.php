@@ -11,24 +11,8 @@
  *
  * @author humanbooster
  */
-class UserController {
-
-    /**
-     * Stores the application (Dependency Injection pattern)
-     * 
-     * @var Application 
-     */
-    private $app;
-
-    /**
-     * Constructor of the class UserController
-     * 
-     * @param Application $app
-     */
-    public function __construct($app) {
-        $this->app = $app;
-    }
-
+class UserController extends Controller {
+    
     /**
      * Index action will show every user into a list
      * 
@@ -101,7 +85,7 @@ class UserController {
             $user = $this->getRepository("user")->get($id);
 
             if (!$user) {
-                Application::addMessageRedirect(0, "error", "Aucun user trouvé avec cet identifiant.");
+                Application::addMessageRedirect(0, "error", "Aucun utilisateur trouvé avec cet identifiant.");
             }
         }
 
@@ -137,7 +121,7 @@ class UserController {
             $this->getRepository("user")->persist($user);
 
             // on valide et on redirige
-            Application::addMessageRedirect(0, "valid", "Votre user a bien été ".
+            Application::addMessageRedirect(0, "valid", "L'utilisateur a bien été ".
                     ($id>0 ? "mis à jour" : "ajouté"), "index.php?controller=user");
         }
 
@@ -148,7 +132,7 @@ class UserController {
             $user = $this->getRepository("user")->get($id);
 
             if (!$user)
-                Application::addMessageRedirect(0, "error", "Aucun user trouvé avec cet identifiant.");
+                Application::addMessageRedirect(0, "error", "Aucun utilisateur trouvé avec cet identifiant.");
         } else {
             // on instancie un nouvel user alors pour avoir quelque chose à afficher
             // dans le formulaire d'édition
@@ -158,16 +142,6 @@ class UserController {
         $view = new View("user.edit", array("user" => $user));
 
         return $view->getHtml();
-    }
-    
-    /**
-     * Returns the repository of the required entity
-     * 
-     * @param string $entity
-     * @return Repository (currently UserRepository only)
-     */
-    private function getRepository($entity) {
-        return $this->app->getService("repository")->get($entity);
     }
 
 }
