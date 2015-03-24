@@ -5,14 +5,7 @@
  *
  * @author humanbooster
  */
-class UserRepository {
-
-    /**
-     * Stores the PDO database instance
-     * 
-     * @var PDO 
-     */
-    private $db;
+class UserRepository extends Repository {
 
     /**
      * Constructor for a repository
@@ -20,72 +13,15 @@ class UserRepository {
      * @param PDO $db
      */
     public function __construct($db) {
-        $this->db = $db;
-    }
-
-    /**
-     * Returns a BO User on a given id
-     * 
-     * @param int $id Id of the Article
-     * @return mixed|boolean $article Returns an Article or false
-     */
-    function get($id) {
-
-        // on forge la requete SQL
-        $sql = "SELECT * FROM user WHERE id=" . $id;
-
-        // on passe la requete SQL à PDO
-        $statement = $this->db->query($sql);
-
-        // on récupère le premier (et unique) résultat de la requete
-        // si on a un article on l'affiche
-        $statement->setFetchMode(PDO::FETCH_CLASS, "User");
-
-        $article = $statement->fetch();
-
-        return $article;
-    }
-
-    /**
-     * Returns every article in the database
-     * 
-     * @return mixed Returns an array or false
-     */
-    public function getAll() {
-        // on forge la requete SQL
-        $sql = "SELECT * FROM user";
-
-        // on passe la requete SQL à PDO
-        $statement = $this->db->query($sql);
-
-        // on récupère le premier (et unique) résultat de la requete
-        // si on a un article on l'affiche
-        $statement->setFetchMode(PDO::FETCH_CLASS, "User");
-
-        $articles = $statement->fetchAll();
-        return $articles;
-    }
-
-    /**
-     * Deletes a user from the database
-     * 
-     * @param int $id Id of an user
-     * @return int Number of modified entries 
-     */
-    public function remove($id) {
-        // si on a un id (GET ou POST), on déclenche la suppression
-        $sql = "DELETE FROM user WHERE id=" . $id;
-
-        // requete préparée PDO
-        return $this->db->exec($sql);
+        parent::__construct($db, "user");
     }
 
     /**
      * 
-     * @param User $user
+     * @param object $user
      * @return int Number of modified entries
      */
-    public function persist(User $user) {
+    public function persist($user) {
 
         // si on a un id (GET ou POST), on fait une mise à jour
         if ($user->id > 0)
