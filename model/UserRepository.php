@@ -1,11 +1,11 @@
 <?php
 
 /**
- * ArticleRepository will handle every transaction with the database
+ * UserRepository will handle every transaction with the database
  *
  * @author humanbooster
  */
-class ArticleRepository {
+class UserRepository {
 
     /**
      * Stores the PDO database instance
@@ -24,7 +24,7 @@ class ArticleRepository {
     }
 
     /**
-     * Returns a BO Article on a given id
+     * Returns a BO User on a given id
      * 
      * @param int $id Id of the Article
      * @return mixed|boolean $article Returns an Article or false
@@ -32,15 +32,14 @@ class ArticleRepository {
     function get($id) {
 
         // on forge la requete SQL
-        $sql = "SELECT * FROM article WHERE id=" . $id;
+        $sql = "SELECT * FROM user WHERE id=" . $id;
 
         // on passe la requete SQL à PDO
         $statement = $this->db->query($sql);
 
         // on récupère le premier (et unique) résultat de la requete
         // si on a un article on l'affiche
-        //if ($article = $statement->fetchObject("Article")) {
-        $statement->setFetchMode(PDO::FETCH_CLASS, "Article");
+        $statement->setFetchMode(PDO::FETCH_CLASS, "User");
 
         $article = $statement->fetch();
 
@@ -54,28 +53,28 @@ class ArticleRepository {
      */
     public function getAll() {
         // on forge la requete SQL
-        $sql = "SELECT * FROM article";
+        $sql = "SELECT * FROM user";
 
         // on passe la requete SQL à PDO
         $statement = $this->db->query($sql);
 
         // on récupère le premier (et unique) résultat de la requete
         // si on a un article on l'affiche
-        $statement->setFetchMode(PDO::FETCH_CLASS, "Article");
+        $statement->setFetchMode(PDO::FETCH_CLASS, "User");
 
         $articles = $statement->fetchAll();
         return $articles;
     }
 
     /**
-     * Deletes an article from the database
+     * Deletes a user from the database
      * 
-     * @param int $id Id of an article
+     * @param int $id Id of an user
      * @return int Number of modified entries 
      */
     public function remove($id) {
         // si on a un id (GET ou POST), on déclenche la suppression
-        $sql = "DELETE FROM article WHERE id=" . $id;
+        $sql = "DELETE FROM user WHERE id=" . $id;
 
         // requete préparée PDO
         return $this->db->exec($sql);
@@ -83,23 +82,31 @@ class ArticleRepository {
 
     /**
      * 
-     * @param Article $article
+     * @param User $user
      * @return int Number of modified entries
      */
-    public function persist(Article $article) {
+    public function persist(User $user) {
 
         // si on a un id (GET ou POST), on fait une mise à jour
-        if ($article->id > 0)
-            $sql = "UPDATE article SET title=:title, content=:content WHERE id=" . $article->id;
+        if ($user->id > 0)
+            $sql = "UPDATE user SET login=:login, email=:email, password=:password,"
+                . " name=:name, birth_date=:birth_date, register_date=:register_date,"
+                . " last_login_date=:last_login_date WHERE id=" . $user->id;
         // sinon on insère un nouvel enregistrement
         else
-            $sql = "INSERT INTO article (title, content) VALUES (:title, :content)";
+            $sql = "INSERT INTO user (login, email, password, name, birth_date, register_date, last_login_date)"
+                . " VALUES (:login, :email, :password, :name, :birth_date, :register_date, :last_login_date)";
 
         // requete préparée PDO
         $statement = $this->db->prepare($sql);
-        $statement->bindParam(":title", $article->title);
-        $statement->bindParam(":content", $article->content);
-
+        $statement->bindParam(":login", $user->login);
+        $statement->bindParam(":email", $user->email);
+        $statement->bindParam(":password", $user->password);
+        $statement->bindParam(":name", $user->name);
+        $statement->bindParam(":birth_date", $user->birth_date);
+        $statement->bindParam(":register_date", $user->register_date);
+        $statement->bindParam(":last_login_date", $user->last_login_date);
+        
         $result = $statement->execute();
 
         return $result;
